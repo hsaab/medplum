@@ -381,7 +381,7 @@ function initInternalFhirRouter(): FhirRouter {
   // Appointment Scheduling operations
   router.add('GET', '/Appointment/$find', appointmentFindHandler);
   router.add('POST', '/Appointment/$book', appointmentBookHandler);
-  router.add('POST', '/Appointment/$cancel', appointmentCancelHandler);
+  router.add('POST', '/Appointment/:id/$cancel', appointmentCancelHandler);
 
   // PackageRelease $install operation
   router.add('POST', '/PackageRelease/:id/$install', packageInstallHandler);
