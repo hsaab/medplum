@@ -14,7 +14,7 @@ Find likely regressions introduced by the current change. Do not review style un
 ## Workflow
 
 1. Inspect the diff and identify changed contracts, data shapes, side effects, and user flows.
-2. Read immediate callers, exports, tests, and restore/serialization paths when relevant.
+2. Read immediate callers, exports, tests, migrations, generated definitions, and serialization paths when relevant.
 3. Look for mismatches between old assumptions and new behavior.
 4. Prefer concrete repro cases over hypothetical concerns.
 5. Recommend the smallest test or fix that would catch each real risk.
@@ -22,8 +22,9 @@ Find likely regressions introduced by the current change. Do not review style un
 ## High-Signal Regression Sources
 
 - Type or schema changes that persisted data might not satisfy.
-- New element, route, command, or event types missing from switch statements.
-- Serialization, restore, import, export, undo, redo, or collaboration paths.
+- FHIR resource definitions, search parameters, auth scopes, or API contracts that changed without downstream updates.
+- New resource, route, event, or job types missing from switch statements, routers, or permission checks.
+- Serialization, import, export, migration, package export, or generated-code paths.
 - UI changes that bypass existing keyboard, mobile, or localization patterns.
 - Tests that assert shape but not intent.
 

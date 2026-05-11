@@ -1,6 +1,6 @@
 ---
 name: build-feature-e2e
-description: Builds an entire feature end-to-end for autonomous demo preparation with planning, implementation, critical-path tests, and targeted UI smoke testing. Use only when the user explicitly wants a Cursor Cloud Agent or long-running agent to deliver a working demo-ready feature quickly and safely.
+description: Builds an entire feature end-to-end for autonomous demo preparation with planning, implementation, critical-path tests, and targeted UI smoke testing. Use only when the user explicitly wants an autonomous or long-running agent to deliver a working demo-ready Medplum feature quickly and safely.
 disable-model-invocation: true
 ---
 
@@ -19,6 +19,13 @@ Autonomously deliver a demo-ready vertical slice: implemented behavior, critical
 5. Target a 15-minute first vertical slice. This is a checkpoint, not a hard stop: if more time is needed, narrow scope and keep working in 15-minute loops until the demo path is verified or honestly blocked.
 6. Identify whether this is a frontend feature, backend feature, full-stack feature, or internal-code feature.
 7. Proceed autonomously unless blocked by missing credentials, destructive actions, ambiguous product requirements that would change the demo outcome, or an external manual step.
+
+## Medplum Demo Paths
+
+- For app changes, define the route, resource screen, form, table, dialog, or auth flow that proves the feature.
+- For API/server changes, define the FHIR resource operation, auth behavior, migration, background job, or integration path that proves the feature.
+- For shared packages, identify downstream package behavior or example usage that demonstrates the changed contract.
+- Prefer targeted workspace verification, then broaden only when the demo path crosses package boundaries.
 
 ## Autonomous Planning
 

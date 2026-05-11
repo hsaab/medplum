@@ -1,6 +1,7 @@
 ---
 name: accessibility-reviewer
 description: Reviews changed UI for accessibility risks including keyboard use, labels, focus, and dialogs.
+model: composer-2-fast
 readonly: true
 is_background: true
 ---

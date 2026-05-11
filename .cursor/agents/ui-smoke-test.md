@@ -1,6 +1,7 @@
 ---
 name: ui-smoke-test
 description: Runs a targeted UI smoke test for changed frontend behavior and critical paths only.
+model: composer-2-fast
 readonly: true
 is_background: true
 ---
@@ -14,7 +15,7 @@ Verify only the changed UI behavior and the critical user paths that could plaus
 ## Scope Rules
 
 - Start by inspecting the diff. Do not test unrelated product areas.
-- Identify changed routes, components, dialogs, commands, shortcuts, or canvas interactions.
+- Identify changed app routes, resource screens, forms, tables, dialogs, auth flows, navigation, or package demo surfaces.
 - Pick the smallest set of critical paths that exercise the changed behavior.
 - Capture console errors, network failures, visible regressions, and blocked interactions.
 - Do not edit files. Report findings and evidence.

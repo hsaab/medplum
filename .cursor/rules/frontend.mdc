@@ -6,7 +6,8 @@ alwaysApply: false
 
 # Frontend Standards
 
-- Reuse existing components, hooks, styles, and design tokens before creating new ones.
+- Reuse existing Mantine, `@medplum/react`, app components, hooks, styles, and design tokens before creating new ones.
+- Follow local React Router and Vite patterns in `packages/app` and package-local patterns in component libraries.
 - Preserve keyboard access, focus behavior, labels, and screen reader affordances.
 - Keep component state local unless shared state is already part of the surrounding pattern.
 - Avoid visual-only verification. Check browser console errors, network failures, and at least one critical interaction.

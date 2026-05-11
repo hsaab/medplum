@@ -1,0 +1,14 @@
+---
+description: Medplum repository architecture and verification guidance
+alwaysApply: true
+---
+
+# Medplum Repository Guidance
+
+- This is a full-stack TypeScript monorepo using npm workspaces and Turbo. Prefer package-local patterns before adding shared abstractions.
+- `packages/app` is the Medplum web app built with React, Vite, Mantine, React Router, and `@medplum/react`.
+- `packages/server` is the Express API server backed by PostgreSQL and Redis, with OpenTelemetry instrumentation and migration scripts.
+- FHIR and healthcare contracts are central. Treat resource schemas, search parameters, auth scopes, package exports, generated definitions, and API behavior as public contracts unless local context proves otherwise.
+- Shared libraries such as `packages/core`, `packages/fhirtypes`, `packages/definitions`, `packages/react`, and `packages/react-hooks` can affect downstream packages and examples.
+- Prefer targeted workspace commands first, for example `npm run test --workspace=@medplum/core`, `npm run test --workspace=@medplum/app`, or `npm run lint --workspace=@medplum/server`.
+- Use root `npm test`, `npm run lint`, or `npm run build` only when the change crosses package boundaries or targeted checks are insufficient.

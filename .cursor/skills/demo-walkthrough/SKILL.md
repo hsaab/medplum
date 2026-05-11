@@ -1,6 +1,6 @@
 ---
 name: demo-walkthrough
-description: Produce a concise engineer-facing walkthrough of a completed change. Use when preparing to demo Cursor, explain an implementation, or summarize how the agent worked.
+description: Produce a concise engineer-facing walkthrough of a completed Medplum change. Use when preparing to demo a feature, explain an implementation, or summarize how the work was verified.
 disable-model-invocation: true
 ---
 
@@ -33,9 +33,9 @@ Create a short technical narrative that makes the work easy to present to softwa
 
 ## Demo Script
 1. Show the original problem.
-2. Show the small set of files Cursor changed.
+2. Show the small set of Medplum files or packages changed.
 3. Show the test or browser verification.
-4. Call out one place where Cursor preserved existing project conventions.
+4. Call out one place where the implementation preserved existing project conventions.
 ```
 
 Keep the walkthrough under two minutes when spoken aloud.
