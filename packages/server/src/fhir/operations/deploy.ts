@@ -5,6 +5,7 @@ import {
   allOk,
   badRequest,
   ContentType,
+  createReference,
   getReferenceString,
   normalizeOperationOutcome,
   OperationOutcomeError,
@@ -13,6 +14,7 @@ import type { FhirRequest, FhirResponse } from '@medplum/fhir-router';
 import type { Attachment, Binary, Bot } from '@medplum/fhirtypes';
 import { Readable } from 'node:stream';
 import { isBotEnabled } from '../../bots/utils';
+import { findProjectMembership } from '../../workers/utils';
 import { deployLambda, getLambdaTimeoutForBot } from '../../cloud/aws/deploy';
 import { deployLambdaStreaming } from '../../cloud/aws/deploystreaming';
 import { deployFissionBot } from '../../cloud/fission/deploy';
@@ -58,6 +60,16 @@ export async function deployBot(repo: Repository, bot: WithId<Bot>, code?: strin
 
   if (!(await isBotEnabled(bot))) {
     throw new OperationOutcomeError(badRequest('Bots not enabled'));
+  }
+
+  if (!bot.runAsUser) {
+    const project = bot.meta?.project as string;
+    const membership = await findProjectMembership(project, createReference(bot));
+    if (!membership) {
+      throw new OperationOutcomeError(
+        badRequest(`Bot ${bot.id} does not have a ProjectMembership. Add a ProjectMembership for this Bot or set runAsUser to true.`)
+      );
+    }
   }
 
   let updatedBot: WithId<Bot> | undefined;

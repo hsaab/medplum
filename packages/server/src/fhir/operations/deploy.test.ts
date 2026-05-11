@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: Copyright Orangebot, Inc. and Medplum contributors
 // SPDX-License-Identifier: Apache-2.0
-import { ContentType } from '@medplum/core';
-import type { Binary, Bot } from '@medplum/fhirtypes';
+import { ContentType, createReference, Operator } from '@medplum/core';
+import type { Binary, Bot, ProjectMembership } from '@medplum/fhirtypes';
 import express from 'express';
 import { randomUUID } from 'node:crypto';
 import stream from 'node:stream';
@@ -12,7 +12,8 @@ import * as awsDeploy from '../../cloud/aws/deploy';
 import { loadTestConfig } from '../../config/loader';
 import * as storage from '../../storage/loader';
 import type { BinaryStorage } from '../../storage/types';
-import { initTestAuth, withTestContext } from '../../test.setup';
+import { createTestProject, initTestAuth, withTestContext } from '../../test.setup';
+import { getProjectSystemRepo } from '../repo';
 import * as streamUtils from '../../util/streams';
 
 const MOCK_PRESIGNED_URL = 'https://example.com/presigned';
@@ -243,5 +244,51 @@ describe('Deploy', () => {
       });
     expect(res3.status).toBe(400);
     expect(res3.body.issue[0].details.text).toStrictEqual('Bots not enabled');
+  });
+
+  test('Deploy bot without ProjectMembership', async () => {
+    const testSetup = await createTestProject({ withAccessToken: true, membership: { admin: true } });
+    const project = testSetup.project;
+    const projectAccessToken = testSetup.accessToken;
+
+    // Create a bot
+    const res1 = await request(app)
+      .post(`/fhir/R4/Bot`)
+      .set('Content-Type', ContentType.FHIR_JSON)
+      .set('Authorization', 'Bearer ' + projectAccessToken)
+      .send({
+        resourceType: 'Bot',
+        name: 'No Membership Bot',
+        runtimeVersion: 'vmcontext',
+      });
+    expect(res1.status).toBe(201);
+    const bot = res1.body as Bot;
+
+    // Delete the bot's ProjectMembership
+    const systemRepo = await getProjectSystemRepo(project);
+    const membership = await systemRepo.searchOne<ProjectMembership>({
+      resourceType: 'ProjectMembership',
+      filters: [
+        { code: 'project', operator: Operator.EQUALS, value: createReference(project).reference as string },
+        { code: 'profile', operator: Operator.EQUALS, value: `Bot/${bot.id}` },
+      ],
+    });
+    expect(membership).toBeDefined();
+    await systemRepo.deleteResource('ProjectMembership', membership!.id);
+
+    // Try to deploy the bot - should fail because there is no ProjectMembership
+    const res2 = await request(app)
+      .post(`/fhir/R4/Bot/${bot.id}/$deploy`)
+      .set('Content-Type', ContentType.FHIR_JSON)
+      .set('Authorization', 'Bearer ' + projectAccessToken)
+      .send({
+        code: `
+          exports.handler = async function (medplum, event) {
+            return event.input;
+          };
+        `,
+      });
+    expect(res2.status).toBe(400);
+    expect(res2.body.issue[0].details.text).toContain('does not have a ProjectMembership');
   });
 });
