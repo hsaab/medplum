@@ -56,6 +56,7 @@ import { getWsBindingTokenHandler } from './operations/getwsbindingtoken';
 import { getWsSubProjectStatsHandler } from './operations/getwssubprojectstats';
 import { getWsSubStatsHandler } from './operations/getwssubstats';
 import { groupExportHandler } from './operations/groupexport';
+import { heartStreamDemoHandler } from './operations/heartstreamdemo';
 import { appLaunchHandler } from './operations/launch';
 import { packageInstallHandler } from './operations/packageinstall';
 import { patientEverythingHandler } from './operations/patienteverything';
@@ -224,6 +225,9 @@ function initInternalFhirRouter(): FhirRouter {
   // Project $export
   router.add('GET', '/$export', bulkExportHandler);
   router.add('POST', '/$export', bulkExportHandler);
+
+  // HeartStream Fleet Readiness demo
+  router.add('POST', '/$heartstream-demo', heartStreamDemoHandler);
 
   // Project $clone
   router.add('POST', '/Project/:id/$clone', projectCloneHandler);

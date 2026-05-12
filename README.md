@@ -66,6 +66,25 @@ If you want to contribute but are unsure how to start, we have [a "good first is
 
 **Ready to get started writing code?** Follow the [local setup instructions](https://www.medplum.com/docs/contributing/local-dev-setup) and jump in!
 
+### One-shot local start
+
+After cloning the repo, start the local Medplum stack with:
+
+```sh
+npm start
+```
+
+This installs dependencies if needed, builds the app and server packages, starts PostgreSQL and Redis with Docker Compose,
+then starts the Medplum API server and web app.
+
+The launcher uses Medplum's Docker PostgreSQL and Redis services. If another local service is already using the default
+PostgreSQL or Redis port, the launcher assigns Medplum's Docker service the next available local port and starts the
+server with a matching temporary config.
+
+- App: [http://localhost:3000/](http://localhost:3000/)
+- API health check: [http://localhost:8103/healthcheck](http://localhost:8103/healthcheck)
+- Default login: `admin@example.com` / `medplum_admin`
+
 ### Codebase
 
 #### Technologies

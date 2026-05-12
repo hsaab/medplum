@@ -16,13 +16,13 @@ services:
       - medplum-postgres-data:/var/lib/postgresql/data
     command: postgres -c config_file=/usr/local/etc/postgres/postgres.conf
     ports:
-      - '5432:5432'
+      - '${MEDPLUM_POSTGRES_PORT:-5432}:5432'
   redis:
     image: redis:7
     restart: unless-stopped # for production usage, consider using 'always'
     command: redis-server --requirepass medplum
     ports:
-      - '6379:6379'
+      - '${MEDPLUM_REDIS_PORT:-6379}:6379'
 
 volumes:
   medplum-postgres-data:
