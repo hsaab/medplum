@@ -12,10 +12,12 @@
     "build:docs": "turbo run build --filter=@medplum/docs",
     "build:fast": "turbo run build --filter=@medplum/app --filter=@medplum/server",
     "clean": "turbo run clean",
+    "dev": "node scripts/dev-stack.mjs",
     "lint": "turbo run lint --filter=!@medplum/docs",
     "lint:fix": "turbo run lint:fix --filter=!@medplum/docs",
     "prettier": "prettier --write \"**/*.{ts,tsx,cts,mts,js,jsx,cjs,mjs,json}\"",
     "sort-package-json": "sort-package-json package.json \"packages/*/package.json\" \"examples/*/package.json\"",
+    "start": "npm run dev",
     "test": "turbo run test --filter=!@medplum/docs"
   },
   "prettier": {

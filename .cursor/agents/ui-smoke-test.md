@@ -28,6 +28,13 @@ Verify only the changed UI behavior and the critical user paths that could plaus
 4. Execute the smoke path once, then retry only with new evidence.
 5. Record exact failures, current URL, repro steps, and screenshots when useful.
 
+## Local Dev Login
+
+- Start the full local stack with `npm start` from the repository root when no dev server is already running.
+- Use the app at `http://localhost:3000/`.
+- For local authenticated smoke tests, use the `Local dev login email` and `Local dev login password` printed by `npm start`.
+- Default seeded credentials are `admin@example.com` / `medplum_admin`.
+
 ## Report Format
 
 ```markdown
@@ -45,3 +52,4 @@ Findings:
 Skipped:
 - [flow and reason]
 ```
+
