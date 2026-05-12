@@ -1,7 +1,16 @@
 // SPDX-FileCopyrightText: Copyright Orangebot, Inc. and Medplum contributors
 // SPDX-License-Identifier: Apache-2.0
 import type { WithId } from '@medplum/core';
-import type { Communication, Device, Observation, Parameters, ParametersParameter, Resource, Task } from '@medplum/fhirtypes';
+import type {
+  Communication,
+  Device,
+  Location,
+  Observation,
+  Parameters,
+  ParametersParameter,
+  Resource,
+  Task,
+} from '@medplum/fhirtypes';
 
 export const HEARTSTREAM_DEMO_TAG_SYSTEM = 'https://medplum.com/demo/heartstream';
 export const HEARTSTREAM_DEMO_TAG_CODE = 'fleet-readiness';
@@ -14,6 +23,7 @@ export type HeartStreamAction = 'seed' | 'reset' | 'create-device' | 'simulate-e
 export type HeartStreamEventType = 'low-battery' | 'pads-expiring' | 'missed-check-in' | 'failed-self-test';
 
 export interface HeartStreamFleetData {
+  readonly locations: WithId<Location>[];
   readonly devices: WithId<Device>[];
   readonly observations: WithId<Observation>[];
   readonly tasks: WithId<Task>[];

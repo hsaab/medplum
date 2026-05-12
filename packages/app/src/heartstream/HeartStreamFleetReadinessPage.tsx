@@ -17,7 +17,7 @@ import {
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { ContentType, formatDateTime, normalizeErrorString } from '@medplum/core';
-import type { Communication, Device, Location, Observation, Parameters, Task } from '@medplum/fhirtypes';
+import type { Parameters } from '@medplum/fhirtypes';
 import { Container, Loading, Panel, useMedplum } from '@medplum/react';
 import type { JSX } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -37,6 +37,7 @@ import {
 } from './heartstream-utils';
 
 const initialFleetData: HeartStreamFleetData = {
+  locations: [],
   devices: [],
   observations: [],
   tasks: [],
@@ -57,18 +58,15 @@ export function HeartStreamFleetReadinessPage(): JSX.Element {
 
   const refreshFleet = useCallback(async () => {
     const [locations, devices, observations, tasks, communications] = await Promise.all([
-      medplum.searchResources<Location>('Location', HEARTSTREAM_TAG_QUERY),
-      medplum.searchResources<Device>('Device', HEARTSTREAM_TAG_QUERY),
-      medplum.searchResources<Observation>('Observation', HEARTSTREAM_TAG_QUERY),
-      medplum.searchResources<Task>('Task', HEARTSTREAM_TAG_QUERY),
-      medplum.searchResources<Communication>('Communication', HEARTSTREAM_TAG_QUERY),
+      medplum.searchResources('Location', HEARTSTREAM_TAG_QUERY),
+      medplum.searchResources('Device', HEARTSTREAM_TAG_QUERY),
+      medplum.searchResources('Observation', HEARTSTREAM_TAG_QUERY),
+      medplum.searchResources('Task', HEARTSTREAM_TAG_QUERY),
+      medplum.searchResources('Communication', HEARTSTREAM_TAG_QUERY),
     ]);
-    setFleetData({ devices, observations, tasks, communications });
-    if (!selectedDeviceId && devices[0]?.id) {
-      setSelectedDeviceId(devices[0].id);
-    }
-    return locations;
-  }, [medplum, selectedDeviceId]);
+    setFleetData({ locations, devices, observations, tasks, communications });
+    setSelectedDeviceId((current) => current || devices[0]?.id);
+  }, [medplum]);
 
   useEffect(() => {
     refreshFleet()
@@ -133,9 +131,9 @@ export function HeartStreamFleetReadinessPage(): JSX.Element {
 
           <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }}>
             <SummaryCard label="AED devices" value={fleetData.devices.length} />
+            <SummaryCard label="Sites" value={fleetData.locations.length} />
             <SummaryCard label="Ready" value={readyCount} tone="green" />
             <SummaryCard label="Active tasks" value={activeTasks.length} tone={activeTasks.length ? 'orange' : 'green'} />
-            <SummaryCard label="Recent events" value={timelineEntries.length} />
           </SimpleGrid>
 
           <SimpleGrid cols={{ base: 1, lg: 2 }}>
@@ -161,7 +159,12 @@ export function HeartStreamFleetReadinessPage(): JSX.Element {
             <Card withBorder>
               <Stack>
                 <Title order={2}>Simulate readiness event</Title>
-                <Select label="Device" data={deviceOptions} value={selectedDeviceId} onChange={setSelectedDeviceId} />
+                <Select
+                  label="Device"
+                  data={deviceOptions}
+                  value={selectedDeviceId}
+                  onChange={(value) => setSelectedDeviceId(value || undefined)}
+                />
                 <Select
                   label="Event"
                   data={HEARTSTREAM_EVENT_OPTIONS}

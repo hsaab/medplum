@@ -23,7 +23,7 @@ describe('HeartStreamFleetReadinessPage', () => {
       if (action === 'seed') {
         await createDemoDevice('North Lobby', 'HeartStream AED - North Lobby', 'HS-NL-1001');
       } else if (action === 'simulate-event') {
-        const device = (await medplum.searchResources<Device>('Device', '_count=1'))[0];
+        const device = (await medplum.searchResources('Device', '_count=1'))[0];
         await medplum.createResource({
           resourceType: 'Observation',
           meta: { tag: [demoTag] },
@@ -77,7 +77,7 @@ describe('HeartStreamFleetReadinessPage', () => {
     expect(await screen.findByRole('heading', { name: 'HeartStream Fleet Readiness' })).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: 'Seed demo fleet' }));
 
-    expect(await screen.findByText('HeartStream AED - North Lobby')).toBeInTheDocument();
+    expect(await screen.findAllByText('HeartStream AED - North Lobby')).not.toHaveLength(0);
     expect(screen.getByText('North Lobby')).toBeInTheDocument();
 
     await waitFor(() => expect(screen.getByRole('button', { name: 'Simulate event' })).toBeEnabled());
