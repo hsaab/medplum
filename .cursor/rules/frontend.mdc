@@ -11,7 +11,9 @@ alwaysApply: false
 - Preserve keyboard access, focus behavior, labels, and screen reader affordances.
 - Keep component state local unless shared state is already part of the surrounding pattern.
 - For design-matching UI work, first acquire a usable Figma, PNG, SVG, or local artifact. If no artifact is accessible, ask for one or proceed only as functional UI after the user accepts that reduced goal.
-- Do not claim the UI matches a design unless that design artifact was available during implementation.
+- When a Figma design is available, treat it as the source of truth for visible UI structure: layout, section order, labels, spacing, and interaction placement. If text requirements conflict with the Figma, preserve backend/product behavior but make the UI match Figma unless the user explicitly chooses otherwise.
+- Do not add visible UI panels, controls, or visualizations that are not in the Figma design just because the written ticket mentions adjacent data. Fold required data into the designed surfaces or ask to update the design/ticket.
+- Do not claim the UI matches a design unless that design artifact was available during implementation and the implemented route was compared against it.
 - Avoid visual-only verification. A real UI smoke loads the changed page in a browser, exercises a critical interaction, checks browser console errors, and checks failed network requests.
 - Label static code review separately from live UI smoke. Do not report UI smoke as passed when no browser was run.
 - Do not introduce new styling systems, UI libraries, or animation dependencies without explicit approval.

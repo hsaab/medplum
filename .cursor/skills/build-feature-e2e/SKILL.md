@@ -18,7 +18,7 @@ Autonomously deliver a demo-ready vertical slice: implemented behavior, critical
 4. Define the demo-critical path: the shortest user flow that proves the feature works.
 5. Target a 15-minute first vertical slice. This is a checkpoint, not a hard stop: if more time is needed, narrow scope and keep working in 15-minute loops until the demo path is verified or honestly blocked.
 6. Identify whether this is a frontend feature, backend feature, full-stack feature, or internal-code feature.
-7. For design-matching frontend work, acquire a usable Figma artifact through MCP or a directly attached/local PNG/SVG before implementing visual fidelity. If no artifact is accessible, stop or mark the work functional-only when the user already accepted that reduced goal.
+7. For design-matching frontend work, acquire a usable Figma artifact through MCP or a directly attached/local PNG/SVG before implementing visual fidelity. When Figma is available, it is the source of truth for visible UI layout, sections, labels, spacing, and interaction placement. If no artifact is accessible, stop or mark the work functional-only when the user already accepted that reduced goal.
 8. Proceed autonomously unless blocked by missing credentials, destructive actions, ambiguous product requirements that would change the demo outcome, inaccessible design artifacts required for visual matching, or an external manual step.
 
 ## Medplum Demo Paths
@@ -35,7 +35,7 @@ Before editing, write a compact plan for yourself:
 - Success criteria.
 - Files and systems likely to change.
 - Critical path tests to add or update.
-- Design artifact status: Figma available, static artifact available, or visual fidelity blocked.
+- Design artifact status: Figma available, static artifact available, or visual fidelity blocked. If Figma is available, list the visible sections that must match and identify any ticket text that conflicts with the design.
 - Verification commands and, for frontend work, the UI smoke path.
 - Verification preflight: dependencies installed, workspace package artifacts built, backend services available, and live UI smoke possible rather than static review only.
 - Risks that could make the demo fail.
@@ -62,7 +62,7 @@ Revise the plan once, then execute. Do not ask the user to approve the plan.
 2. Implement the smallest complete path first. Defer polish until the core path works.
 3. Add tests for the critical path and the highest-risk edge case.
 4. Preflight test commands before running them: confirm the runner exists, required workspace `dist` artifacts exist, and required backend services are reachable. Run targeted tests first after preflight. Add typecheck or broader tests only when contracts or shared code changed.
-5. If this is a frontend feature, run the `ui-smoke-test` agent without readonly mode when a live smoke is required, or perform an equivalent targeted browser smoke test against the changed UI path: load the page, exercise the demo flow, check console errors, and check failed network requests.
+5. If this is a frontend feature, run the `ui-smoke-test` subagent without readonly mode. Manual browser smoke can supplement the subagent, but should not replace it unless subagent launch is blocked. The smoke must load the page, exercise the demo flow, check console errors, check failed network requests, and compare visible UI against the Figma/source artifact when one exists.
 6. If `ui-smoke-test` reports that no browser was launched, treat it as static review only. Run a manual browser smoke if tools allow; otherwise report UI smoke as blocked, not passed.
 7. Fix failures that block the demo-critical path. Do not chase unrelated failures unless they were introduced by the change.
 8. If the full feature is not reachable quickly, choose a smaller credible path before stopping. Stop with a handoff only when the demo path is verified or no honest vertical slice remains.

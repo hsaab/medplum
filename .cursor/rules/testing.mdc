@@ -13,5 +13,6 @@ alwaysApply: false
 - Prefer the narrowest useful workspace command first, such as `npm run test --workspace=@medplum/app`, then broaden through Turbo or root scripts only when risk justifies it.
 - If preflight fails, fix setup once when reasonable; otherwise stop retrying and report the test as environment-blocked with the command to run later.
 - If a change affects user workflows, include at least one interaction-level test or smoke verification path.
+- For changed frontend workflows, run the `ui-smoke-test` subagent for UI smoke verification. Manual browser checks can supplement it, but do not replace it unless subagent launch is blocked.
 - Never report "tests pass" unless you ran them. Say exactly what was run and what was skipped.
 - When tests are impractical, explain the blocker and provide a concrete manual verification path.
