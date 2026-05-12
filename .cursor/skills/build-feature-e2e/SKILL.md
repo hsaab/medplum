@@ -52,6 +52,7 @@ Revise the plan once, then execute. Do not ask the user to approve the plan.
 ## Safety Boundaries
 
 - Preserve existing user changes. Check the working tree before risky edits and do not revert unrelated files.
+- Treat attached initial git status as a hint only; run current `git status --short` before relying on listed files.
 - Do not run destructive commands, touch secrets, modify production data, or change external services without explicit user approval.
 - Do not commit or push unless the user explicitly asks.
 - If the requested outcome requires credentials, paid external actions, destructive migrations, or manual setup, stop and report the blocker.
