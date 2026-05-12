@@ -6,6 +6,9 @@ binary/
 # Node/npm
 node_modules/
 
+# Redis
+*.rdb
+
 # Dotenv
 .env
 
