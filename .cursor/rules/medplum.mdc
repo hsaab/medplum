@@ -12,3 +12,10 @@ alwaysApply: true
 - Shared libraries such as `packages/core`, `packages/fhirtypes`, `packages/definitions`, `packages/react`, and `packages/react-hooks` can affect downstream packages and examples.
 - Prefer targeted workspace commands first, for example `npm run test --workspace=@medplum/core`, `npm run test --workspace=@medplum/app`, or `npm run lint --workspace=@medplum/server`.
 - Use root `npm test`, `npm run lint`, or `npm run build` only when the change crosses package boundaries or targeted checks are insufficient.
+
+## Medplum Test Preflight
+
+- Fresh agents may need `npm install` before any test command; check that the runner exists before retrying failures.
+- App and server Jest tests can require built workspace `dist` artifacts such as `packages/core/dist`, `packages/react/dist`, `packages/mock/dist`, and `packages/fhir-router/dist`.
+- If those artifacts are missing, run `npm run build:fast` before app/server Jest tests.
+- Server tests require Postgres and Redis. Check `localhost:5432`, `localhost:6379`, or Docker availability before running them; if services cannot be started, report the backend test as environment-blocked with the exact command to run later.

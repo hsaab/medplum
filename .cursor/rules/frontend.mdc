@@ -10,6 +10,9 @@ alwaysApply: false
 - Follow local React Router and Vite patterns in `packages/app` and package-local patterns in component libraries.
 - Preserve keyboard access, focus behavior, labels, and screen reader affordances.
 - Keep component state local unless shared state is already part of the surrounding pattern.
-- Avoid visual-only verification. Check browser console errors, network failures, and at least one critical interaction.
+- For design-matching UI work, first acquire a usable Figma, PNG, SVG, or local artifact. If no artifact is accessible, ask for one or proceed only as functional UI after the user accepts that reduced goal.
+- Do not claim the UI matches a design unless that design artifact was available during implementation.
+- Avoid visual-only verification. A real UI smoke loads the changed page in a browser, exercises a critical interaction, checks browser console errors, and checks failed network requests.
+- Label static code review separately from live UI smoke. Do not report UI smoke as passed when no browser was run.
 - Do not introduce new styling systems, UI libraries, or animation dependencies without explicit approval.
 - For changed UI, summarize the user-facing behavior and the verification path.

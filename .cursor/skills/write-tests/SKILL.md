@@ -12,8 +12,10 @@ description: Add or improve tests for changed behavior using the project's exist
 3. Prefer extending an existing test file when it keeps related behavior together.
 4. Use existing factories, render helpers, fixtures, and assertion style.
 5. Add the smallest test that fails for the wrong behavior and passes for the right reason.
-6. Run the narrowest matching test command.
-7. If the test cannot be run, explain why and provide the exact command to run later.
+6. Preflight the test command: check the package script, confirm the runner exists, verify required workspace build artifacts, and confirm required services for integration tests.
+7. Build first when workspace package exports point to missing `dist` files.
+8. Run the narrowest matching test command.
+9. If the test cannot be run because setup or services are unavailable, stop early, explain why, and provide the exact command to run later.
 
 ## Test Quality Bar
 
