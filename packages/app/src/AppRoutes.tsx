@@ -24,6 +24,7 @@ import { ChangePasswordPage } from './ChangePasswordPage';
 import { CreateResourcePage } from './CreateResourcePage';
 import { ErrorPage } from './ErrorPage';
 import { FormPage } from './FormPage';
+import { HeartStreamFleetReadinessPage } from './heartstream/HeartStreamFleetReadinessPage';
 import { HomePage } from './HomePage';
 import { AssaysPage } from './lab/AssaysPage';
 import { PanelsPage } from './lab/PanelsPage';
@@ -105,6 +106,7 @@ export function AppRoutes(): JSX.Element {
           <Route path="sites" element={<SitesPage />} />
           <Route path="rate-limits" element={<RateLimitsPage />} />
         </Route>
+        <Route path="/heartstream/fleet-readiness" element={<HeartStreamFleetReadinessPage />} />
         <Route path="/lab/assays" element={<AssaysPage />} />
         <Route path="/lab/panels" element={<PanelsPage />} />
         <Route path="/:resourceType/new" element={<CreateResourcePage />}>
